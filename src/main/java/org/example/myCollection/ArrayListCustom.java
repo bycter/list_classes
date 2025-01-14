@@ -17,7 +17,7 @@ public class ArrayListCustom<E> extends AbstractListCustom<E> implements ListCus
     private static final Object[] EMPTY_ARRAY = {};
 
     /**
-     * Constructs an empty list with an initial capacity of ten.
+     * Constructs an empty list with an initial capacity of zero.
      */
     public ArrayListCustom() {
         this.arrayElements = EMPTY_ARRAY;
@@ -62,21 +62,38 @@ public class ArrayListCustom<E> extends AbstractListCustom<E> implements ListCus
         }
     }
 
+    /**
+     * Returns element at the specified position in this list.
+     *
+     * @param index - index of the element to return
+     * @return the element at the specified position in this list
+     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index >= size())
+     */
     public E get(int index) {
-        if (index < 0 || index >= arraySize) {
-            throw new IndexOutOfBoundsException("Wrong array index (" + index + ")");
-        }
+        checkElementIndex(index, arraySize);
+
         return (E) arrayElements[index];
     }
 
+    /**
+     * Inserts the specified element at the end position in this list.
+     *
+     * @param element - element to be inserted
+     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index > size())
+     */
     public void add(E element) {
         add(arraySize, element);
     }
 
+    /**
+     * Inserts the specified element at the specified position in this list.
+     *
+     * @param index   - index at which the specified element is to be inserted
+     * @param element - element to be inserted
+     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index > size())
+     */
     public void add(int index, E element) {
-        if (index < 0 || index > arraySize) {
-            throw new IndexOutOfBoundsException("Wrong array index (" + index + ")");
-        }
+        checkPositionIndex(index, arraySize);
 
         Object[] elements = this.arrayElements;
 
@@ -94,16 +111,27 @@ public class ArrayListCustom<E> extends AbstractListCustom<E> implements ListCus
         arraySize = arraySize + 1;
     }
 
+    /**
+     * Inserts the specified elements at the end position in this list.
+     *
+     * @param newElements - elements to be inserted
+     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index > size())
+     */
     public void addAll(Collection<? extends E> newElements) {
         addAll(arraySize, newElements);
     }
 
+    /**
+     * Inserts the specified elements at the specified position in this list.
+     *
+     * @param index       - index at which the specified element is to be inserted
+     * @param newElements - elements to be inserted
+     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index > size())
+     */
     public void addAll(int index, Collection<? extends E> newElements) {
         Object[] cArray = newElements.toArray();
 
-        if (index < 0 || index > arraySize) {
-            throw new IndexOutOfBoundsException("Wrong array index (" + index + ")");
-        }
+        checkPositionIndex(index, arraySize);
 
         Object[] elements = this.arrayElements;
 
@@ -121,14 +149,24 @@ public class ArrayListCustom<E> extends AbstractListCustom<E> implements ListCus
         arraySize = arraySize + cArray.length;
     }
 
+    /**
+     * Replaces the element at the specified position in this list with the specified element.
+     *
+     * @param index   - index of the element to replace
+     * @param element - element to be stored at the specified position
+     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index >= size())
+     */
     public void set(int index, E element) {
-        if (index < 0 || index >= arraySize) {
-            throw new IndexOutOfBoundsException("Wrong array index (" + index + ")");
-        }
+        checkElementIndex(index, arraySize);
 
         arrayElements[index] = element;
     }
 
+    /**
+     * Removes the first occurrence of the specified element from this list, if it is present.
+     *
+     * @param o - element to be removed from this list, if present
+     */
     public void remove(Object o) {
         int foundIndex = -1;
         for (int i = 0; i < arraySize; i++) {
@@ -149,10 +187,14 @@ public class ArrayListCustom<E> extends AbstractListCustom<E> implements ListCus
         }
     }
 
+    /**
+     * Removes the element at the specified position in this list.
+     *
+     * @param index - the index of the element to be removed
+     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index >= size())
+     */
     public void remove(int index) {
-        if (index < 0 || index >= arraySize) {
-            throw new IndexOutOfBoundsException("Wrong array index (" + index + ")");
-        }
+        checkElementIndex(index, arraySize);
 
         Object[] elements = this.arrayElements;
 
@@ -170,10 +212,23 @@ public class ArrayListCustom<E> extends AbstractListCustom<E> implements ListCus
         arraySize = arraySize - 1;
     }
 
+    /**
+     * Returns the number of elements in this list.
+     *
+     * @return the number of elements in this list
+     */
     public int size() {
         return arraySize;
     }
 
+    /**
+     * Returns a view of the portion of this list between the specified fromIndex and toIndex.
+     * @param startIndex - start index for giving portion of elements
+     * @param endIndex - end index for giving portion of elements
+     * @return a list of elements
+     * @throws  IndexOutOfBoundsException – for an illegal endpoint index value (fromIndex < 0 || toIndex > size || fromIndex > toIndex)
+     * @throws IllegalArgumentException – if the endpoint indices are out of order (fromIndex > toIndex)
+     */
     public List<E> subList(int startIndex, int endIndex) {
         subListRangeCheck(startIndex, endIndex, arraySize);
 
