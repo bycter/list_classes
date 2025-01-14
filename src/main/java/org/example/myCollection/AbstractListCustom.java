@@ -42,6 +42,19 @@ public abstract class AbstractListCustom<E> {
         throw new UnsupportedOperationException();
     }
 
+
+    static void checkElementIndex(int index, int arraySize) {
+        if (index < 0 || index >= arraySize) {
+            throw new IndexOutOfBoundsException("Wrong array index (" + index + ")");
+        }
+    }
+
+    static void checkPositionIndex(int index, int arraySize) {
+        if (index < 0 || index > arraySize) {
+            throw new IndexOutOfBoundsException("Wrong array index (" + index + ")");
+        }
+    }
+
     static void subListRangeCheck(int startIndex, int endIndex, int size) {
         String startIndexStr = "startIndex(" + startIndex + ")";
         String endIndexStr = "endIndex(" + endIndex + ")";
